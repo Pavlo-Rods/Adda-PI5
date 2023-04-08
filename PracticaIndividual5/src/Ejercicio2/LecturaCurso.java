@@ -13,7 +13,9 @@ import us.lsi.common.Files2;
 public class LecturaCurso {
 	
 	public static void main(String[] args) {
-		for(int i = 1; i < 4; i++);
+		for(int i = 1; i < 4; i++) {
+			iniDatos("files/Ejercicio2DatosEntrada" + i + ".txt");
+		}
 	}
 	
 	private static List<Curso> Cursos;
