@@ -6,4 +6,5 @@
  *
  */
 module PracticaIndividual5 {
+	requires partecomun;
 }
