@@ -1,11 +1,12 @@
-package Ejercicio1.Grafo;
+package Ejercicio1;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import ClasesLectura.Cafe;
 import ClasesLectura.Variedad;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import us.lsi.common.Files2;
 
