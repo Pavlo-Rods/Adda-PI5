@@ -59,5 +59,29 @@ public class LecturaCafe {
 	
 	//Getters
 	//TODO: Directrices de resolucion en ev
+	
+	public static Integer getN() {
+		return Cafes.size();
+	}
+	
+	public static Integer getM() {
+		return Variedades.size();
+	}
+	
+	public static Integer getKgs(Integer c){
+		return Cafes.get(c).kg();
+	}
+	
+	public static Double getPorcentaje(Integer c, Integer v) {
+		return Variedades.get(v).composicion().get(c).second();
+	}
+	
+	public static Double getBeneficio(Integer v) {
+		return Variedades.get(v).beneficio();
+	}
+	
+	public static List<Variedad> getVariedad(){
+		return Variedades;
+	}
 
 }
