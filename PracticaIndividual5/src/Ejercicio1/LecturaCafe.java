@@ -6,9 +6,11 @@ import ClasesLectura.Cafe;
 import ClasesLectura.Variedad;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import us.lsi.common.Files2;
+import us.lsi.common.List2;
 
 public class LecturaCafe {
 	
@@ -82,6 +84,28 @@ public class LecturaCafe {
 	
 	public static List<Variedad> getVariedad(){
 		return Variedades;
+	}
+	
+	public static List<Integer> mismaComposicion(Integer v){
+		List<Integer> res = new ArrayList<>();
+		
+		List<Integer> comp = List2.rangeList(0, getN() - 1).stream()
+				.filter(e-> getPorcentaje(e, v) != 0).toList();
+		
+		for(int i = v + 1; i < getM(); i++) {
+			List<Integer> aux = List2.rangeList(0, getN() - 1).stream()
+					.filter(e-> getPorcentaje(e, v) != 0).toList();
+			
+			if(!Collections.disjoint(comp, aux)) {
+				res.add(i);
+			}
+		}
+		
+		return res;
+	}
+	
+	public static List<Double> getUniverso(){
+		return Cafes.stream().map(e-> e.kg().doubleValue()).toList();
 	}
 
 }

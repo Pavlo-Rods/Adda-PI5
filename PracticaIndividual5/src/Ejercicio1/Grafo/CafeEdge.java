@@ -15,5 +15,9 @@ public record CafeEdge(CafeVertex source, CafeVertex target, Integer action, Dou
 		
 		return of(source, target, action, weight);
 	}
+	
+	public String toString() {
+		return String.format("%d; %.1f", this.action, this.weight);
+	}
 
 }

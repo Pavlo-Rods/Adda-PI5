@@ -23,13 +23,7 @@ public record CafeVertex(Integer index, List<Double> remaining)
 	}
 	
 	public static CafeVertex initial() {
-		List<Double> remaining = new ArrayList<>();
-		
-		for(int i = 0; i < N; i++) {
-			remaining.add(LecturaCafe.getKgs(i).doubleValue());
-		}
-		
-		return of(0, remaining);
+		return of(0, LecturaCafe.getUniverso());
 	}
 
 	@Override
@@ -40,7 +34,7 @@ public record CafeVertex(Integer index, List<Double> remaining)
 			Integer max = getMax(index, remaining);
 			res = List2.rangeList(0, max);
 		}else {
-			res = List.of(0);
+			res = List.of();
 		}
 		
 		return res;
@@ -50,7 +44,7 @@ public record CafeVertex(Integer index, List<Double> remaining)
 	public CafeVertex neighbor(Integer a) {
 		List<Double> remain = new ArrayList<>();
 		
-		for(int i = 0; i < N; i++) {
+		for(int i = 0; i < N - 1; i++) {
 			Double aux = remaining.get(i) - 
 					a * LecturaCafe.getPorcentaje(i, index);
 			remain.add(aux);
@@ -64,6 +58,7 @@ public record CafeVertex(Integer index, List<Double> remaining)
 		return CafeEdge.of(this, this.neighbor(a), a);
 	}
 	
+	@Override
 	public Boolean isValid() {
 		return index >= 0 && index <= M && 
 				remaining.stream().mapToDouble(e-> e).sum() >= 0;
@@ -83,11 +78,33 @@ public record CafeVertex(Integer index, List<Double> remaining)
 		return SolucionCafe.ofRange(actions);
 	}
 	
-	private static Integer getMax(Integer index, List<Double> remaining) {
+	public CafeEdge greedyEdge() {
+		return maxMejor() ? edge(0) : edge(getMax(index, remaining).intValue());
+	}
+	
+	public String toString() {
+		return String.format("%d; %d", this.index, this.remaining);
+	}
+	
+	public static Integer getMax(Integer index, List<Double> remaining) {
 		Double r = List2.rangeList(0, N - 1).stream()
 				.filter(e-> LecturaCafe.getPorcentaje(e, index) > 0)
 				.mapToDouble(e-> remaining.get(e)/LecturaCafe.getPorcentaje(e, index))
 				.min().orElse(0);
 		return r.intValue();
 	}
+
+	private Boolean maxMejor(){
+		Double max = List2.rangeList(this.index + 1, M)
+				.stream().filter(e-> LecturaCafe.mismaComposicion(index).contains(e))
+				.mapToDouble(e-> LecturaCafe.getBeneficio(e) * getMax(e, remaining).intValue())
+				.max().orElse(0);
+		
+		Double vertice = LecturaCafe.getBeneficio(index) * 
+				getMax(index, remaining).intValue();
+		
+		
+		return vertice < max;
+	}
 }
+
