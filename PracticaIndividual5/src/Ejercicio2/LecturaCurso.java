@@ -32,9 +32,11 @@ public class LecturaCurso {
 		
 		MaxCentro = Integer.valueOf(it.next().split("=")[1].trim());
 		Curso c;
+		Integer id = 0;
 		
 		while(it.hasNext()) {
-			c = Curso.of(it.next());
+			c = Curso.of(id, it.next());
+			id ++;
 			
 			Cursos.add(c);
 			Tematicas.addAll(c.tematicas());
@@ -54,5 +56,34 @@ public class LecturaCurso {
 		System.out.println("Centros: " + Centros);
 		System.out.println("=========================================================================================");
 		
+	}
+
+	
+	public static Double getPrecio(Integer c) {
+		return Cursos.get(c).precio();
+	}
+	
+	public static Integer getM() {
+		return Cursos.size();
+	}
+	
+	public static Set<Integer> getTematica(Integer c){
+		return Cursos.get(c).tematicas();
+	}
+	
+	public static Integer getCentro(Integer c) {
+		return Cursos.get(c).centro();
+	}
+	
+	public static Integer getN() {
+		return Tematicas.size();
+	}
+	
+	public static Integer MaxCentros() {
+		return MaxCentro;
+	}
+	
+	public static Curso getCurso(Integer c) {
+		return Cursos.get(c);
 	}
 }

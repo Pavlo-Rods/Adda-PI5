@@ -68,11 +68,27 @@ public record CafeVertex(Integer index, List<Double> remaining)
 		return e-> e.index == CafeVertex.M;
 	}
 	
+	public static Predicate<CafeVertex> goalHasSolution(){
+		return e -> {
+			Boolean flag = true;
+			
+			for(int i = 0; i < M; i++) {
+				Integer aux = getMax(i, e.remaining).intValue();
+				if(aux != 0) {
+					flag = false;
+					break;
+				}
+			}
+			
+			return flag;
+		};
+	}
+	
 	public static SolucionCafe getSolucion(GraphPath<CafeVertex, CafeEdge> path) {
 		return CafeVertex.getSolucion(path.getEdgeList());
 	}
 	
-	public static SolucionCafe getSolucion(List<CafeEdge> ls) {
+	private static SolucionCafe getSolucion(List<CafeEdge> ls) {
 		List<Integer> actions = ls.stream().map(e-> e.action()).toList();
 		
 		return SolucionCafe.ofRange(actions);
